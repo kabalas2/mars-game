@@ -1,0 +1,14 @@
+{
+    "name": "codeacademy/mars-game",
+    "description": "Web browsing game - Mars",
+    "type": "project",
+    "require": {
+        "psr/log": "^1.1"
+    },
+    "authors": [
+        {
+            "name": "Arnoldas",
+            "email": "nikaflash@gmail.com"
+        }
+    ]
+}
