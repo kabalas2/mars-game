@@ -4,6 +4,7 @@ namespace Core\Routing;
 
 class Request
 {
+
     private $post;
     private $get;
     private $serve;
@@ -27,7 +28,6 @@ class Request
             $path = trim(strtolower($this->serve['PATH_INFO']), '/');
             $path = explode('/', $path);
             if (isset($path[0]) && $path[0]) {
-                print_r($path);
                 $urlParametrs['controller'] = $path[0];
                 if (isset($path[1])) {
                     $urlParametrs['method'] = $path[1];
@@ -44,4 +44,5 @@ class Request
 
         return $urlParametrs;
     }
+
 }

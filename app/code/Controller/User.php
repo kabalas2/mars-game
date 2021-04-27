@@ -2,7 +2,9 @@
 
 namespace Controller;
 
-class User
+use Core\Controller;
+
+class User extends Controller
 {
     public function index()
     {
@@ -11,6 +13,12 @@ class User
 
     public function register()
     {
-        echo '<h1>Register Page</h1>';
+        $this->render('cia jau is renderio');
     }
+
+    public function load($id)
+    {
+        echo $id;
+    }
+
 }
