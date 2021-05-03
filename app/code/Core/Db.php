@@ -32,6 +32,7 @@ class Db
     // Execute query
     public function exec()
     {
+        echo $this->sql;
         $statment = $this->pdo->query($this->sql);
     }
 
@@ -45,6 +46,17 @@ class Db
         }
 
         return $rez;
+    }
+
+    public function getOne()
+    {
+        $statment = $this->pdo->query($this->sql);
+        $rez = [];
+        while ($row = $statment->fetch()) {
+            $rez[] = $row;
+        }
+
+        return $rez[0];
     }
 
 

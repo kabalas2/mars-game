@@ -39,4 +39,10 @@ class User extends Controller
         $user->save();
     }
 
+    public function load($id)
+    {
+        $user = new UserModel();
+        $user->load($id);
+    }
+
 }

@@ -72,11 +72,22 @@ class User
     {
         $db = new Db();
         $user = [
-            'user' => $this->userName,
+            'name' => $this->userName,
             'password' => $this->password,
             'email' => $this->email
         ];
         $db->update('user')->set($user)->where('id', $this->id)->exec();
+    }
+
+    public function load($id)
+    {
+        $db = new Db();
+        $user = $db->select()->from('user')->where('id', $id)->getOne();
+        $this->id = $user['id'];
+        $this->userName = $user['name'];
+        $this->email = $user['email'];
+        $this->password = $user['password'];
+        return $this;
     }
 
 }
