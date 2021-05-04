@@ -4,8 +4,10 @@ namespace Controller;
 
 use Core\Controller;
 use Helper\FormBuilder;
+use Helper\Url;
 use Model\User as UserModel;
 use Core\Request;
+
 class User extends Controller
 {
     public function index()
@@ -15,24 +17,32 @@ class User extends Controller
 
     public function registration()
     {
-        $form = new FormBuilder('post', BASE_URL.'/user/create');
-        $form->input('name', 'text', '', 'Username','','','');
-        $form->input('email', 'email', '', 'Email','','','');
-        $form->input('password', 'password', '', '******','','','');
-        $form->input('password2', 'password', '', '******','','','');
-        $form->input('register', 'submit', 'Register', '','','','');
+        $form = new FormBuilder('post', Url::make('/user/create'));
+        $form->input('name', 'text', '', 'Username', '', '', '');
+        $form->input('email', 'email', '', 'Email', '', '', '');
+        $form->input('password', 'password', '', '******', '', '', '');
+        $form->input('password2', 'password', '', '******', '', '', '');
+        $form->input('register', 'submit', 'Register', '', '', '', '');
         $this->render('user/register', ['form' => $form->get()]);
     }
 
     public function login()
     {
-        $this->render('user/login', []);
+        $form = new FormBuilder('post', Url::make('/user/check'));
+        $form->input('email', 'email', '', 'Email', '', '', '');
+        $form->input('password', 'password', '', '******', '', '', '');
+        $form->input('login', 'submit', 'Login', '', '', '', '');
+        $this->render('user/login', ['form' => $form->get()]);
     }
+
 
     public function create()
     {
         $request = new Request();
         $user = new UserModel();
+        if(!UserModel::isEmailUnic($request->getPost('email'))){
+            Url::redirect(Url::make('/user/registration'));
+        }
         $user->setUserName($request->getPost('name'));
         $user->setEmail($request->getPost('email'));
         $user->setPassword($request->getPost('password'));
@@ -43,6 +53,19 @@ class User extends Controller
     {
         $user = new UserModel();
         $user->load($id);
+    }
+
+    public function check()
+    {
+        $reques = new Request();
+        $email = $reques->getPost('email');
+        $password = $reques->getPost('password');
+        if (UserModel::isValidLoginCredentionals($email, $password)) {
+            Url::redirect(Url::make('/map'));
+        }else{
+            Url::redirect(Url::make('/user/login'));
+        }
+
     }
 
 }

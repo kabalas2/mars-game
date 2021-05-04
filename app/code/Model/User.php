@@ -90,4 +90,30 @@ class User
         return $this;
     }
 
+    public static function isValidLoginCredentionals($email, $password)
+    {
+        $db = new Db();
+        $result = $db->select()
+            ->from('user')
+            ->where('email', $email)
+            ->whereAnd('password', $password)
+            ->get();
+        if(!empty($result)){
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function isEmailUnic($email)
+    {
+        $db = new Db();
+        $result = $db->select()->from('user')->where('email', $email)->get();
+        if(empty($result)){
+            return true;
+        }
+
+        return false;
+    }
+
 }
