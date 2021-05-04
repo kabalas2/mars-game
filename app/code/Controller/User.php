@@ -19,20 +19,20 @@ class User extends Controller
     public function registration()
     {
         $form = new FormBuilder('post', Url::make('/user/create'));
-        $form->input('name', 'text', '', 'Username', '', '', '');
-        $form->input('email', 'email', '', 'Email', '', '', '');
-        $form->input('password', 'password', '', '******', '', '', '');
-        $form->input('password2', 'password', '', '******', '', '', '');
-        $form->input('register', 'submit', 'Register', '', '', '', '');
+        $form->input('name', 'text', '', 'Username');
+        $form->input('email', 'email', '', 'Email');
+        $form->input('password', 'password', '', '******');
+        $form->input('password2', 'password', '', '******');
+        $form->input('register', 'submit', 'Register');
         $this->render('user/register', ['form' => $form->get()]);
     }
 
     public function login()
     {
         $form = new FormBuilder('post', Url::make('/user/check'));
-        $form->input('email', 'email', '', 'Email', '', '', '');
-        $form->input('password', 'password', '', '******', '', '', '');
-        $form->input('login', 'submit', 'Login', '', '', '', '');
+        $form->input('email', 'email', '', 'Email');
+        $form->input('password', 'password', '', '******');
+        $form->input('login', 'submit', 'Login');
         $this->render('user/login', ['form' => $form->get()]);
     }
 
@@ -79,6 +79,36 @@ class User extends Controller
     public function logout()
     {
         session_destroy();
+    }
+
+    public function edit($id)
+    {
+        $user = new UserModel();
+        $user->load($id);
+        $form = new FormBuilder('post', Url::make('user/update'));
+        $form->input('name', 'text', $user->getUserName())
+            ->input('email', 'email', $user->getEmail())
+            ->input('password', 'password', '', 'New Password')
+            ->input('password2', 'password', '', 'Repeat new Password')
+            ->input('id', 'hidden', $user->getId())
+            ->input('save', 'submit', 'Save');
+        $this->render('user/update', ['form' => $form->get()]);
+    }
+
+    public function update()
+    {
+        $request = new Request();
+
+        $user = new UserModel();
+        $user->load($request->getPost('id'));
+        $user->setUserName($request->getPost('name'));
+        $user->setEmail($request->getPost('email'));
+        if ($request->getPost('password')) {
+            $user->setPassword($request->getPost('password'));
+        }
+
+        $user->save();
+        Url::redirect(Url::make('/user/edit/' . $user->getId()));
     }
 
 }
