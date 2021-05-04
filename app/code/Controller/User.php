@@ -7,6 +7,7 @@ use Helper\FormBuilder;
 use Helper\Url;
 use Model\User as UserModel;
 use Core\Request;
+use Helper\Validation\InputValidation as Validation;
 
 class User extends Controller
 {
@@ -40,12 +41,20 @@ class User extends Controller
     {
         $request = new Request();
         $user = new UserModel();
-        if(!UserModel::isEmailUnic($request->getPost('email'))){
+        $email = $request->getPost('email');
+        $password = $request->getPost('password');
+        $password2 = $request->getPost('password2');
+
+        if (
+            !Validation::isEmailValid($email) &&
+            !Validation::isPasswordValid($password, $password2)
+        ) {
             Url::redirect(Url::make('/user/registration'));
         }
+
         $user->setUserName($request->getPost('name'));
-        $user->setEmail($request->getPost('email'));
-        $user->setPassword($request->getPost('password'));
+        $user->setEmail($email);
+        $user->setPassword($password);
         $user->save();
     }
 
@@ -62,10 +71,15 @@ class User extends Controller
         $password = $reques->getPost('password');
         if (UserModel::isValidLoginCredentionals($email, $password)) {
             Url::redirect(Url::make('/map'));
-        }else{
+        } else {
             Url::redirect(Url::make('/user/login'));
         }
+    }
 
+    public function logout()
+    {
+        session_destroy();
     }
 
 }
+
