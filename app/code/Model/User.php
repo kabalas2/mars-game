@@ -90,6 +90,18 @@ class User
         return $this;
     }
 
+    public function loadByEmail($email)
+    {
+        $db = new Db();
+        $user = $db->select()->from('user')->where('email', $email)->getOne();
+        $this->id = $user['id'];
+        $this->userName = $user['name'];
+        $this->email = $user['email'];
+        $this->password = $user['password'];
+        return $this;
+    }
+
+
     public static function isValidLoginCredentionals($email, $password)
     {
         $db = new Db();
