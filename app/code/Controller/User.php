@@ -66,6 +66,8 @@ class User extends Controller
         $user->setEmail($email);
         $user->setPassword($password);
         $user->save();
+        $this->message->setSuccessMessage('Account created');
+        Url::redirect(Url::make('/user/login'));
     }
 
     public function check()

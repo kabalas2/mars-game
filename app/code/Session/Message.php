@@ -20,4 +20,19 @@ class Message extends Session
     {
         $this->unset('error_message');
     }
+
+    public function setSuccessMessage($message)
+    {
+        $this->set('success_message', $message);
+    }
+
+    public function getSuccessMessage()
+    {
+        return $this->get('success_message');
+    }
+
+    public function unsetSuccessMeesage()
+    {
+        $this->unset('success_message');
+    }
 }
