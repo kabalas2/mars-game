@@ -13,8 +13,18 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a href="<?php echo BASE_URL ?>/user/registration">Register</a> </li>
-            <li class="nav-item"><a href="<?php echo BASE_URL ?>/user/login">Login</a></li>
+            <?php if(!$this->isLogedIn()): ?>
+                <li class="nav-item"><a href="<?php echo BASE_URL ?>/user/registration">Register</a> </li>
+                <li class="nav-item"><a href="<?php echo BASE_URL ?>/user/login">Login</a></li>
+            <?php else: ?>
+                <li class="nav-item"><a href="<?php echo BASE_URL ?>/user/logout">Logout</a></li>
+                <li class="nav-item"><a href="<?php echo BASE_URL ?>/user/account">My account</a></li>
+            <?php endif; ?>
         </ul>
     </nav>
 </header>
+<?php if(isset($data['error']) && $data['error']): ?>
+<div class="alert alert-danger">
+    <?php echo $data['error']; ?>
+</div>
+<?php endif; ?>

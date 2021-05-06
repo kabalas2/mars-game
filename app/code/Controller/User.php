@@ -8,17 +8,9 @@ use Helper\Url;
 use Model\User as UserModel;
 use Core\Request;
 use Helper\Validation\InputValidation as Validation;
-use Session\User as UserSession;
 
 class User extends Controller
 {
-    private $session;
-
-    public function __construct()
-    {
-        $this->session = new UserSession();
-    }
-
     public function index()
     {
         echo 'user index';
@@ -26,14 +18,15 @@ class User extends Controller
 
     public function registration()
     {
-        if(!$this->session->isLoged()) {
+        if(!$this->userSession->isLoged()) {
             $form = new FormBuilder('post', Url::make('/user/create'));
             $form->input('name', 'text', '', 'Username');
             $form->input('email', 'email', '', 'Email');
             $form->input('password', 'password', '', '******');
             $form->input('password2', 'password', '', '******');
             $form->input('register', 'submit', 'Register');
-            $this->render('user/register', ['form' => $form->get()]);
+            $this->data['form'] = $form->get();
+            $this->render('user/register', $this->data);
         }else{
             Url::redirect(Url::make('/map'));
         }
@@ -41,12 +34,13 @@ class User extends Controller
 
     public function login()
     {
-        if(!$this->session->isLoged()) {
+        if(!$this->userSession->isLoged()) {
             $form = new FormBuilder('post', Url::make('/user/check'));
             $form->input('email', 'email', '', 'Email');
             $form->input('password', 'password', '', '******');
             $form->input('login', 'submit', 'Login');
-            $this->render('user/login', ['form' => $form->get()]);
+            $this->data['form'] = $form->get();
+            $this->render('user/login', $this->data);
         }else{
             Url::redirect(Url::make('/map'));
         }
@@ -74,12 +68,6 @@ class User extends Controller
         $user->save();
     }
 
-    public function load($id)
-    {
-        $user = new UserModel();
-        $user->load($id);
-    }
-
     public function check()
     {
         $reques = new Request();
@@ -88,9 +76,10 @@ class User extends Controller
         if (UserModel::isValidLoginCredentionals($email, $password)) {
             $user = new UserModel();
             $user->loadByEmail($email);
-            $this->session->createUserSession($user);
+            $this->userSession->createUserSession($user);
             Url::redirect(Url::make('/map'));
         } else {
+            $this->message->setErrorMessage('Email or Password not match');
             Url::redirect(Url::make('/user/login'));
         }
     }
@@ -98,13 +87,14 @@ class User extends Controller
     public function logout()
     {
         session_destroy();
+        Url::redirect(Url::make('/user/login'));
     }
 
     public function edit()
     {
-        if($this->session->isLoged()) {
+        if($this->userSession->isLoged()) {
             $user = new UserModel();
-            $user->load($this->session->getAuthUserId());
+            $user->load($this->userSession->getAuthUserId());
             $form = new FormBuilder('post', Url::make('user/update'));
             $form->input('name', 'text', $user->getUserName())
                 ->input('email', 'email', $user->getEmail())
