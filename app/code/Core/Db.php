@@ -4,6 +4,10 @@ namespace Core;
 
 class Db
 {
+    public const USER_TABLE = 'user';
+    public const MAP_FIELD_TABLE = 'map_field';
+    public const FIELD_TYPE_TABLE = 'field_type';
+
     private $host = DB_HOST;
     private $dbuser = DB_USER;
     private $dbname = DB_NAME;

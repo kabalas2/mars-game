@@ -32,4 +32,13 @@ class Request
 
         return null;
     }
+
+    public function getGet($key = null)
+    {
+        if($key !== null && isset($this->get[$key])){
+            return $this->get[$key];
+        }
+
+        return null;
+    }
 }

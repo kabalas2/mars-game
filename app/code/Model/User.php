@@ -6,6 +6,12 @@ use Core\Db;
 
 class User
 {
+    public const ID_COLUMN = 'id';
+    public const NAME_COLUMN = 'name';
+    public const EMAIL_COLUMN = 'email';
+    public const PASSWORD_COLUMN = 'password';
+
+
     private $id = null;
     private $userName;
     private $password;
@@ -61,43 +67,43 @@ class User
     {
         $db = new Db();
         $user = [
-            'name' => $this->userName,
-            'password' => $this->password,
-            'email' => $this->email
+            self::NAME_COLUMN => $this->userName,
+            self::PASSWORD_COLUMN => $this->password,
+            self::EMAIL_COLUMN => $this->email
         ];
-        $db->insert('user')->values($user)->exec();
+        $db->insert(DB::USER_TABLE)->values($user)->exec();
     }
 
     public function update()
     {
         $db = new Db();
         $user = [
-            'name' => $this->userName,
-            'password' => $this->password,
-            'email' => $this->email
+            self::NAME_COLUMN => $this->userName,
+            self::PASSWORD_COLUMN => $this->password,
+            self::EMAIL_COLUMN => $this->email
         ];
-        $db->update('user')->set($user)->where('id', $this->id)->exec();
+        $db->update(DB::USER_TABLE)->set($user)->where(self::ID_COLUMN, $this->id)->exec();
     }
 
     public function load($id)
     {
         $db = new Db();
-        $user = $db->select()->from('user')->where('id', $id)->getOne();
-        $this->id = $user['id'];
-        $this->userName = $user['name'];
-        $this->email = $user['email'];
-        $this->password = $user['password'];
+        $user = $db->select()->from(DB::USER_TABLE)->where(self::ID_COLUMN, $id)->getOne();
+        $this->id = $user[self::ID_COLUMN];
+        $this->userName = $user[self::NAME_COLUMN];
+        $this->email = $user[self::EMAIL_COLUMN];
+        $this->password = $user[self::PASSWORD_COLUMN];
         return $this;
     }
 
     public function loadByEmail($email)
     {
         $db = new Db();
-        $user = $db->select()->from('user')->where('email', $email)->getOne();
-        $this->id = $user['id'];
-        $this->userName = $user['name'];
-        $this->email = $user['email'];
-        $this->password = $user['password'];
+        $user = $db->select()->from(DB::USER_TABLE)->where(self::EMAIL_COLUMN, $email)->getOne();
+        $this->id = $user[self::ID_COLUMN];
+        $this->userName = $user[self::NAME_COLUMN];
+        $this->email = $user[self::EMAIL_COLUMN];
+        $this->password = $user[self::PASSWORD_COLUMN];
         return $this;
     }
 
@@ -106,9 +112,9 @@ class User
     {
         $db = new Db();
         $result = $db->select()
-            ->from('user')
-            ->where('email', $email)
-            ->whereAnd('password', $password)
+            ->from(DB::USER_TABLE)
+            ->where(self::EMAIL_COLUMN, $email)
+            ->whereAnd(self::PASSWORD_COLUMN, $password)
             ->get();
         if(!empty($result)){
             return true;
@@ -120,7 +126,7 @@ class User
     public static function isEmailUnic($email)
     {
         $db = new Db();
-        $result = $db->select()->from('user')->where('email', $email)->get();
+        $result = $db->select()->from(DB::USER_TABLE)->where(self::EMAIL_COLUMN, $email)->get();
         if(empty($result)){
             return true;
         }
