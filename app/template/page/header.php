@@ -25,7 +25,7 @@
                         <li><a href="<?php echo BASE_URL ?>/user/registration">Register</a></li>
                         <li><a href="<?php echo BASE_URL ?>/user/login">Login</a></li>
                     <?php else: ?>
-                        <li><a href="<?php echo BASE_URL ?>/user/account">My account</a></li>
+                        <li><a href="<?php echo BASE_URL ?>/user/edit">My account</a></li>
                         <li><a href="<?php echo BASE_URL ?>/user/logout">Logout</a></li>
                     <?php endif; ?>
                 </ul>

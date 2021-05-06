@@ -97,12 +97,11 @@ class User extends Controller
         if($this->userSession->isLoged()) {
             $user = new UserModel();
             $user->load($this->userSession->getAuthUserId());
-            $form = new FormBuilder('post', Url::make('user/update'));
+            $form = new FormBuilder('post', Url::make('/user/update'));
             $form->input('name', 'text', $user->getUserName())
                 ->input('email', 'email', $user->getEmail())
                 ->input('password', 'password', '', 'New Password')
                 ->input('password2', 'password', '', 'Repeat new Password')
-                ->input('id', 'hidden', $user->getId())
                 ->input('save', 'submit', 'Save');
             $this->render('user/update', ['form' => $form->get()]);
         }else {
@@ -115,7 +114,7 @@ class User extends Controller
         $request = new Request();
 
         $user = new UserModel();
-        $user->load($request->getPost('id'));
+        $user->load($this->userSession->getAuthUserId());
         $user->setUserName($request->getPost('name'));
         $user->setEmail($request->getPost('email'));
         if ($request->getPost('password')) {
@@ -123,8 +122,9 @@ class User extends Controller
         }
 
         $user->save();
-        Url::redirect(Url::make('/user/edit/' . $user->getId()));
+        Url::redirect(Url::make('/user/edit/'));
     }
+
 
 }
 
