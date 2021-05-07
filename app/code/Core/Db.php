@@ -100,8 +100,10 @@ class Db
         $this->sql .= '(';
         $valueLine = '';
         foreach ($values as $columnName => $value) {
-            $this->sql .= $columnName . ', ';
-            $valueLine .= '"' . $value . '"' . ', ';
+            if ($value !== 'null'){
+                $this->sql .= $columnName . ', ';
+                $valueLine .= '"' . $value . '"' . ', ';
+            }
         }
         $this->sql = rtrim($this->sql, ', ') . ' ';
         $this->sql .= ') ';

@@ -1,0 +1,28 @@
+.map {
+    display: flex;
+    flex-wrap: wrap;
+    width: 720px;
+}
+.field {
+    width: 35px;
+    height: 35px;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    background: #e17a34
+}
+
+.sand {
+    background: #e7d5c4;
+}
+
+.metal {
+    background: #5c2f04;
+}
+
+.clay {
+    background: #a8a4a4;
+}
+
+.water {
+    background: #08c4e7;
+}
