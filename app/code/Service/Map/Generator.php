@@ -17,8 +17,12 @@ class Generator
         if(empty(MapField::getAllFields())){
             for ($y = 1; $y <= self::MAX_HEIGHT; $y++)
             {
-                for ($x = 1; $x <= self::MAX_HEIGHT; $x++)
+                for ($x = 1; $x <= self::MAX_HEIGHT;)
                 {
+                    $x = $x + rand(0,10);
+                    if($x > self::MAX_LENGHT){
+                        continue;
+                    }
                     $mapField = new MapField();
                     $mapField->setX($x);
                     $mapField->setY($y);

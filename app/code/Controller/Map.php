@@ -4,6 +4,7 @@ namespace Controller;
 
 use Core\Controller;
 use Helper\Url;
+use Service\Map\Loader;
 
 class Map extends Controller
 {
@@ -17,6 +18,9 @@ class Map extends Controller
 
     public function index()
     {
+        $map = new Loader();
+
+        $this->data['fields'] = $map->get();
         $this->render('game/map', $this->data);
     }
 }

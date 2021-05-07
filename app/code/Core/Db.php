@@ -36,7 +36,6 @@ class Db
     // Execute query
     public function exec()
     {
-        echo $this->sql;
         $statment = $this->pdo->query($this->sql);
     }
 
