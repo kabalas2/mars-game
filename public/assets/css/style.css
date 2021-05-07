@@ -1,5 +1,25 @@
+body{
+    background: url("../images/spacebg.jpeg") no-repeat;
+    background-size: cover;
+}
+.world{
+    background: url(../images/planet.png);
+    background-position: center center;
+    padding: 40px 0;
+    border-radius: 300px;
+    background-size: 118%;
+}
+body .navbar-default{
+    background-color: #201f27;
+}
+body .navbar{
+    margin-bottom: 0;
+}
 .map {
-    /*width: 720px;*/
+    width: 1050px;
+    /*background: url(../images/marsbg.png) no-repeat;*/
+    background-size: cover;
+    margin:0 auto;
 }
 .y-row{
     display: flex;
@@ -8,23 +28,26 @@
 .field {
     width: 35px;
     height: 35px;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    background: #e17a34
+    border-right: 1px dashed #D05A05;
+    border-bottom: 1px dashed #D05A05;
 }
 
 .sand {
-    background: #e7d5c4;
+    background: url(../images/sand.png) no-repeat center center;
+    background-size: 99%;
 }
 
 .metal {
-    background: #5c2f04;
+    background: url(../images/metal.png) no-repeat center center;
+    background-size: 99%;
 }
 
 .clay {
-    background: #a8a4a4;
+    background: url(../images/clay.png) no-repeat center center;
+    background-size: 99%;
 }
 
 .water {
-    background: #08c4e7;
+    background: url(../images/lake.png) no-repeat center center;
+    background-size: 99%;
 }

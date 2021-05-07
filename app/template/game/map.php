@@ -1,4 +1,5 @@
 <?php $fields = $this->data['fields']?>
+<div class="world">
 <div class="map">
     <?php for($y = 1 ; $y <= 30; $y++): ?>
     <div class="y-row">
@@ -13,4 +14,5 @@
         <?php endfor; ?>
     </div>
     <?php endfor; ?>
+</div>
 </div>
