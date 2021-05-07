@@ -4,8 +4,8 @@ namespace Service\Map;
 use Model\MapField;
 class Generator
 {
-    public const MAX_LENGHT = 20;
-    public const MAX_HEIGHT = 20;
+    public const MAX_LENGHT = 30;
+    public const MAX_HEIGHT = 30;
 
     public const SAND_FIELD = 2;
     public const METAL_FIELD = 3;

@@ -1,7 +1,9 @@
 .map {
+    /*width: 720px;*/
+}
+.y-row{
     display: flex;
     flex-wrap: wrap;
-    width: 720px;
 }
 .field {
     width: 35px;
