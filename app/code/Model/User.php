@@ -72,6 +72,7 @@ class User
             self::EMAIL_COLUMN => $this->email
         ];
         $db->insert(DB::USER_TABLE)->values($user)->exec();
+        $this->loadByEmail($this->email);
     }
 
     public function update()

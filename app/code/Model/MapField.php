@@ -136,5 +136,15 @@ class MapField
         $db->update(DB::MAP_FIELD_TABLE)->set($mapField)->where(self::ID_COLUMN, $this->id)->exec();
     }
 
+    public static function isFieldsEmpty($x, $y)
+    {
+        $db = new Db();
+
+        $result  = $db->select()->from(self::MAP_FIELD_TABLE)->where(self::X_COLUMN, $x)->whereAnd(self::Y_COLUMN, $y)->get();
+        // $result = $db->select()->from('map_field')->where('x', $x)->whereAnd('y',$y)->get(); same like ^^^^^
+
+        return empty($result) ? true : false;
+    }
+
 
 }

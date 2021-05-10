@@ -7,6 +7,7 @@ class Generator
     public const MAX_LENGHT = 30;
     public const MAX_HEIGHT = 30;
 
+    public const CITY_FIELD = 1;
     public const SAND_FIELD = 2;
     public const METAL_FIELD = 3;
     public const CLAY_FIELD = 4;

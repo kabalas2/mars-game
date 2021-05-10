@@ -51,3 +51,7 @@ body .navbar{
     background: url(../images/lake.png) no-repeat center center;
     background-size: 99%;
 }
+
+.city{
+    background: #ff0000;
+}

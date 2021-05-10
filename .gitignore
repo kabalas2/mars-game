@@ -4,3 +4,5 @@
 /.DS_Store
 /config.php
 /public/adminer.php
+/public/.DS_Store
+/public/assets/.DS_Store

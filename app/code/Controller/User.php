@@ -8,6 +8,7 @@ use Helper\Url;
 use Model\User as UserModel;
 use Core\Request;
 use Helper\Validation\InputValidation as Validation;
+use Service\Map\Field\AssignField;
 
 class User extends Controller
 {
@@ -66,7 +67,14 @@ class User extends Controller
         $user->setEmail($email);
         $user->setPassword($password);
         $user->save();
+
+        $assign = new AssignField();
+        $assign->createAndAssignField($user->getId());
+
+
+
         $this->message->setSuccessMessage('Account created');
+
         Url::redirect(Url::make('/user/login'));
     }
 

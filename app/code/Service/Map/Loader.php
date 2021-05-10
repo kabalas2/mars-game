@@ -34,6 +34,7 @@ class Loader
     public function setFieldClasses()
     {
         $this->fieldClasses = [
+            Generator::CITY_FIELD => 'city',
             Generator::SAND_FIELD => 'sand',
             Generator::METAL_FIELD => 'metal',
             Generator::CLAY_FIELD => 'clay',
