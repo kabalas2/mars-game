@@ -139,4 +139,10 @@ class Db
         return $this;
     }
 
+    public function truncate($table)
+    {
+        $this->sql = 'TRUNCATE '.$table;
+        return $this;
+    }
+
 }
