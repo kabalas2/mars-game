@@ -2,25 +2,20 @@
 
 namespace Model;
 
+use Model\ModelAbstract;
 use Core\Db;
 
-class User
+class User extends ModelAbstract
 {
-    public const ID_COLUMN = 'id';
     public const NAME_COLUMN = 'name';
     public const EMAIL_COLUMN = 'email';
     public const PASSWORD_COLUMN = 'password';
+    public const TABLE_NAME = 'user';
 
 
-    private $id = null;
     private $userName;
     private $password;
     private $email;
-
-    public function getId()
-    {
-        return $this->id;
-    }
 
     public function getUserName()
     {
@@ -52,40 +47,6 @@ class User
         $this->email = $email;
     }
 
-    public function save()
-    {
-        if($this->id !== null){
-            $this->update();
-        }else{
-            $this->create();
-        }
-
-        return $this;
-    }
-
-    public function create()
-    {
-        $db = new Db();
-        $user = [
-            self::NAME_COLUMN => $this->userName,
-            self::PASSWORD_COLUMN => $this->password,
-            self::EMAIL_COLUMN => $this->email
-        ];
-        $db->insert(DB::USER_TABLE)->values($user)->exec();
-        $this->loadByEmail($this->email);
-    }
-
-    public function update()
-    {
-        $db = new Db();
-        $user = [
-            self::NAME_COLUMN => $this->userName,
-            self::PASSWORD_COLUMN => $this->password,
-            self::EMAIL_COLUMN => $this->email
-        ];
-        $db->update(DB::USER_TABLE)->set($user)->where(self::ID_COLUMN, $this->id)->exec();
-    }
-
     public function load($id)
     {
         $db = new Db();
@@ -100,7 +61,7 @@ class User
     public function loadByEmail($email)
     {
         $db = new Db();
-        $user = $db->select()->from(DB::USER_TABLE)->where(self::EMAIL_COLUMN, $email)->getOne();
+        $user = $db->select()->from(self::TABLE_NAME)->where(self::EMAIL_COLUMN, $email)->getOne();
         $this->id = $user[self::ID_COLUMN];
         $this->userName = $user[self::NAME_COLUMN];
         $this->email = $user[self::EMAIL_COLUMN];
@@ -113,11 +74,11 @@ class User
     {
         $db = new Db();
         $result = $db->select()
-            ->from(DB::USER_TABLE)
+            ->from(self::TABLE_NAME)
             ->where(self::EMAIL_COLUMN, $email)
             ->whereAnd(self::PASSWORD_COLUMN, $password)
             ->get();
-        if(!empty($result)){
+        if (!empty($result)) {
             return true;
         }
 
@@ -127,12 +88,17 @@ class User
     public static function isEmailUnic($email)
     {
         $db = new Db();
-        $result = $db->select()->from(DB::USER_TABLE)->where(self::EMAIL_COLUMN, $email)->get();
-        if(empty($result)){
-            return true;
-        }
+        $result = $db->select()->from(self::TABLE_NAME)->where(self::EMAIL_COLUMN, $email)->get();
+        return empty($result) ? true : false;
+    }
 
-        return false;
+    public function prepeareArray()
+    {
+        return [
+            self::NAME_COLUMN => $this->userName,
+            self::PASSWORD_COLUMN => $this->password,
+            self::EMAIL_COLUMN => $this->email
+        ];
     }
 
 }

@@ -16,11 +16,11 @@ class Generator
     public function execute()
     {
         if(empty(MapField::getAllFields())){
-            for ($y = 1; $y <= self::MAX_HEIGHT; $y++)
+            for ($y = 1; $y <= self::MAX_HEIGHT;)
             {
                 for ($x = 1; $x <= self::MAX_HEIGHT;)
                 {
-                    $x = $x + rand(0,10);
+                    $x = $x + rand(1,10);
                     if($x > self::MAX_LENGHT){
                         continue;
                     }
@@ -31,6 +31,7 @@ class Generator
                     $mapField->setUserId('null');
                     $mapField->save();
                 }
+                $y = $y + 2;
             }
         }else{
             echo 'Map allready exist;';

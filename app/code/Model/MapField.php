@@ -1,18 +1,17 @@
 <?php
 
 namespace Model;
-use Core\Db;
 
-class MapField
+use Core\Db;
+use Model\ModelAbstract;
+
+class MapField extends ModelAbstract
 {
-    public const ID_COLUMN = 'id';
     public const X_COLUMN = 'x';
     public const Y_COLUMN = 'y';
     public const FIELD_TYPE_COLUMN = 'field_type_id';
     public const USER_ID_COLUMN = 'user_id';
-    public const MAP_FIELD_TABLE = 'map_field';
-
-    private $id;
+    public const TABLE_NAME = 'map_field';
 
     private $x;
 
@@ -21,15 +20,6 @@ class MapField
     private $fieldTypeId;
 
     private $userId;
-
-    /**
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
 
     /**
      * @return integer
@@ -98,52 +88,39 @@ class MapField
     public static function getAllFields()
     {
         $db = new Db();
-        return $db->select()->from(DB::MAP_FIELD_TABLE)->get();
-    }
-
-    public function save()
-    {
-        if($this->id !== null){
-            $this->update();
-        }else{
-            $this->create();
-        }
-
-        return $this;
-    }
-
-    public function create()
-    {
-        $db = new Db();
-        $mapField = [
-            self::X_COLUMN => $this->x,
-            self::Y_COLUMN => $this->y,
-            self::FIELD_TYPE_COLUMN => $this->fieldTypeId,
-            self::USER_ID_COLUMN => $this->userId,
-        ];
-        $db->insert(DB::MAP_FIELD_TABLE)->values($mapField)->exec();
-    }
-
-    public function update()
-    {
-        $db = new Db();
-        $mapField = [
-            self::X_COLUMN => $this->x,
-            self::Y_COLUMN => $this->y,
-            self::FIELD_TYPE_COLUMN => $this->fieldTypeId,
-            self::USER_ID_COLUMN => $this->userId
-        ];
-        $db->update(DB::MAP_FIELD_TABLE)->set($mapField)->where(self::ID_COLUMN, $this->id)->exec();
+        return $db->select()->from(static::TABLE_NAME)->get();
     }
 
     public static function isFieldsEmpty($x, $y)
     {
         $db = new Db();
 
-        $result  = $db->select()->from(self::MAP_FIELD_TABLE)->where(self::X_COLUMN, $x)->whereAnd(self::Y_COLUMN, $y)->get();
+        $result = $db->select()->from(static::TABLE_NAME)->where(self::X_COLUMN, $x)->whereAnd(self::Y_COLUMN, $y)->get();
         // $result = $db->select()->from('map_field')->where('x', $x)->whereAnd('y',$y)->get(); same like ^^^^^
 
         return empty($result) ? true : false;
+    }
+
+    public function load($id)
+    {
+        $db = new Db;
+        $result = $db->select()->from(static::TABLE_NAME)->where(self::ID_COLUMN, $id)->getOne();
+        $this->id = $result[self::ID_COLUMN];
+        $this->x = $result[self::X_COLUMN];
+        $this->y = $result[self::Y_COLUMN];
+        $this->fieldTypeId = $result[self::FIELD_TYPE_COLUMN];
+        $this->userId = $result[self::USER_ID_COLUMN];
+        return $this;
+    }
+
+    public function prepeareArray()
+    {
+        return [
+            self::X_COLUMN => $this->x,
+            self::Y_COLUMN => $this->y,
+            self::FIELD_TYPE_COLUMN => $this->fieldTypeId,
+            self::USER_ID_COLUMN => $this->userId,
+        ];
     }
 
 

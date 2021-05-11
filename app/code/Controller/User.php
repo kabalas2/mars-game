@@ -5,6 +5,7 @@ namespace Controller;
 use Core\Controller;
 use Helper\FormBuilder;
 use Helper\Url;
+use Model\City;
 use Model\User as UserModel;
 use Core\Request;
 use Helper\Validation\InputValidation as Validation;
@@ -19,7 +20,7 @@ class User extends Controller
 
     public function registration()
     {
-        if(!$this->userSession->isLoged()) {
+        if (!$this->userSession->isLoged()) {
             $form = new FormBuilder('post', Url::make('/user/create'));
             $form->input('name', 'text', '', 'Username');
             $form->input('email', 'email', '', 'Email');
@@ -28,21 +29,21 @@ class User extends Controller
             $form->input('register', 'submit', 'Register');
             $this->data['form'] = $form->get();
             $this->render('user/register', $this->data);
-        }else{
+        } else {
             Url::redirect(Url::make('/map'));
         }
     }
 
     public function login()
     {
-        if(!$this->userSession->isLoged()) {
+        if (!$this->userSession->isLoged()) {
             $form = new FormBuilder('post', Url::make('/user/check'));
             $form->input('email', 'email', '', 'Email');
             $form->input('password', 'password', '', '******');
             $form->input('login', 'submit', 'Login');
             $this->data['form'] = $form->get();
             $this->render('user/login', $this->data);
-        }else{
+        } else {
             Url::redirect(Url::make('/map'));
         }
     }
@@ -69,10 +70,12 @@ class User extends Controller
         $user->save();
 
         $assign = new AssignField();
-        $assign->createAndAssignField($user->getId());
+         $mapField = $assign->createAndAssignField($user->getId());
 
-
-
+        $city = new City();
+        $city->setName('City of '.$user->getUserName());
+        $city->setMapFieldId($mapField->getId());
+        $city->save();
         $this->message->setSuccessMessage('Account created');
 
         Url::redirect(Url::make('/user/login'));
@@ -102,7 +105,7 @@ class User extends Controller
 
     public function edit()
     {
-        if($this->userSession->isLoged()) {
+        if ($this->userSession->isLoged()) {
             $user = new UserModel();
             $user->load($this->userSession->getAuthUserId());
             $form = new FormBuilder('post', Url::make('/user/update'));
@@ -112,7 +115,7 @@ class User extends Controller
                 ->input('password2', 'password', '', 'Repeat new Password')
                 ->input('save', 'submit', 'Save');
             $this->render('user/update', ['form' => $form->get()]);
-        }else {
+        } else {
             Url::redirect(Url::make('/user/login'));
         }
     }

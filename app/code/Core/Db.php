@@ -36,7 +36,14 @@ class Db
     // Execute query
     public function exec()
     {
-        $statment = $this->pdo->query($this->sql);
+
+        if ($this->pdo->query($this->sql)) {
+            $lastId = $this->pdo->lastInsertId();
+            return $lastId;
+        } else {
+            echo "Error: " . $this->sql . "<br>";
+            print_r($this->pdo->errorInfo());
+        }
     }
 
     // Get Results
@@ -99,7 +106,7 @@ class Db
         $this->sql .= '(';
         $valueLine = '';
         foreach ($values as $columnName => $value) {
-            if ($value !== 'null'){
+            if ($value !== 'null') {
                 $this->sql .= $columnName . ', ';
                 $valueLine .= '"' . $value . '"' . ', ';
             }
