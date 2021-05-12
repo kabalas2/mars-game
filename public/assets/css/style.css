@@ -55,3 +55,9 @@ body .navbar{
 .city{
     background: #ff0000;
 }
+.city-wrapper{
+    max-width: 1400px;
+    min-height: 500px;
+    background: #D05A05;
+    margin: 0 auto;
+}

@@ -30,4 +30,15 @@ $city->setMapFieldId($mapField->getId());
 $city->save();
 echo "City created <br>";
 
+$resoursesIds = [1, 2, 3, 4, 5, 6, 7];
+
+foreach ($resoursesIds as $id){
+    $userResource = new Model\UserResource();
+    $userResource->setUserId($user->getId());
+    $userResource->setValue(500);
+    $userResource->setResourceId($id);
+    $userResource->save();
+}
+echo "Resourses assigned <br>";
+
 echo 'Insta completed!';
