@@ -47,3 +47,8 @@
         </div>
     <?php endif; ?>
 </div>
+<?php if($data['resources']): ?>
+    <div class="resource-wrapper">
+
+    </div>
+<?php endif;?>

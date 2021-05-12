@@ -61,3 +61,12 @@ body .navbar{
     background: #D05A05;
     margin: 0 auto;
 }
+
+.resource-wrapper{
+    max-width: 1400px;
+    min-height: 50px;
+    background: #D05A05;
+    margin: 0 auto;
+    border: 1px solid #000;
+    border-radius: 5px;
+}

@@ -10,6 +10,9 @@ use Model\User as UserModel;
 use Core\Request;
 use Helper\Validation\InputValidation as Validation;
 use Service\Map\Field\AssignField;
+use Service\Game\InitUserInGame;
+
+use Model\UserResource;
 
 class User extends Controller
 {
@@ -69,13 +72,9 @@ class User extends Controller
         $user->setPassword($password);
         $user->save();
 
-        $assign = new AssignField();
-         $mapField = $assign->createAndAssignField($user->getId());
+        $init = new InitUserInGame();
+        $init->createUsersDefaults($user->getId());
 
-        $city = new City();
-        $city->setName('City of '.$user->getUserName());
-        $city->setMapFieldId($mapField->getId());
-        $city->save();
         $this->message->setSuccessMessage('Account created');
 
         Url::redirect(Url::make('/user/login'));
