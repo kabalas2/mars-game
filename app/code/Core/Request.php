@@ -26,7 +26,7 @@ class Request
 
     public function getPost($key = null)
     {
-        if($key !== null && isset($this->post[$key])){
+        if ($key !== null && isset($this->post[$key])) {
             return $this->post[$key];
         }
 
@@ -35,7 +35,7 @@ class Request
 
     public function getGet($key = null)
     {
-        if($key !== null && isset($this->get[$key])){
+        if ($key !== null && isset($this->get[$key])) {
             return $this->get[$key];
         }
 

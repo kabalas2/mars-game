@@ -49,6 +49,10 @@
 </div>
 <?php if($data['resources']): ?>
     <div class="resource-wrapper">
-
+        <?php foreach ($data['resources'] as $name => $value ): ?>
+            <div class="resourse-<?php echo $name ?>">
+                <?php echo $name .': '. $value; ?>
+            </div>
+        <?php endforeach; ?>
     </div>
 <?php endif;?>

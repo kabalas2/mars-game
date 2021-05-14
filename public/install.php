@@ -41,4 +41,13 @@ foreach ($resoursesIds as $id){
 }
 echo "Resourses assigned <br>";
 
-echo 'Insta completed!';
+
+$building = new \Model\Building();
+$building->setBuildinTypeId(1);
+$building->setCityId($city->getId());
+$building->setLevel(1);
+$building->setPosition(1);
+$building->save();
+echo "Default buildings initiated <br>";
+
+echo 'Install completed!';

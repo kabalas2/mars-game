@@ -60,6 +60,7 @@ body .navbar{
     min-height: 500px;
     background: #D05A05;
     margin: 0 auto;
+    padding-top: 30px;
 }
 
 .resource-wrapper{
@@ -69,4 +70,26 @@ body .navbar{
     margin: 0 auto;
     border: 1px solid #000;
     border-radius: 5px;
+    display: flex;
+}
+.resource-wrapper > div{
+    margin-left: 20px;
+}
+
+.city-base{
+    width: 400px;
+    height: 400px;
+    border-right: 1px solid #000;
+    border-top: 1px solid #000;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px auto;
+}
+
+.city-base .column{
+    width: 99px;
+    height: 99px;
+    border-left: 1px solid #000;
+    border-bottom: 1px solid #000;
+
 }
