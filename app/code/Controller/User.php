@@ -6,6 +6,7 @@ use Core\Controller;
 use Helper\FormBuilder;
 use Helper\Url;
 use Model\City;
+use Model\MapField;
 use Model\User as UserModel;
 use Core\Request;
 use Helper\Validation\InputValidation as Validation;
@@ -113,7 +114,8 @@ class User extends Controller
                 ->input('password', 'password', '', 'New Password')
                 ->input('password2', 'password', '', 'Repeat new Password')
                 ->input('save', 'submit', 'Save');
-            $this->render('user/update', ['form' => $form->get()]);
+            $this->data['form'] = $form->get();
+            $this->render('user/update', $this->data);
         } else {
             Url::redirect(Url::make('/user/login'));
         }
@@ -133,6 +135,24 @@ class User extends Controller
 
         $user->save();
         Url::redirect(Url::make('/user/edit/'));
+    }
+
+    public function stats()
+    {
+        $users = UserModel::getAllUsers();
+        $this->data['users'] = $users;
+        $this->render('user/list', $this->data);
+    }
+
+    public function view($id)
+    {
+        $user = new UserModel();
+        $user->load($id);
+        $this->data['user'] = $user;
+
+        $mapFields = MapField::getUserFields($id);
+        $this->data['fields'] = $mapFields;
+        $this->render('user/view', $this->data);
     }
 
 

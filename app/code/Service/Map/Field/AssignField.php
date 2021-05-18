@@ -5,6 +5,7 @@ namespace Service\Map\Field;
 use Model\MapField;
 use Service\Map\Generator;
 use Model\City;
+
 class AssignField
 {
     public function createAndAssignField($userId)

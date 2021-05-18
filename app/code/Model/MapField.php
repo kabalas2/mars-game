@@ -123,5 +123,12 @@ class MapField extends ModelAbstract
         ];
     }
 
+    public static function getUserFields($userId)
+    {
+        $db = new Db();
+        $result = $db->select()->from(self::TABLE_NAME)->where(self::USER_ID_COLUMN, $userId)->get();
+        return $result;
+    }
+
 
 }

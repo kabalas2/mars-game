@@ -101,4 +101,11 @@ class User extends ModelAbstract
         ];
     }
 
+    public static function getAllUsers()
+    {
+        $db = new DB;
+        $result = $db->select()->from(self::TABLE_NAME)->get();
+        return $result;
+    }
+
 }

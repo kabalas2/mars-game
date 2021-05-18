@@ -34,8 +34,9 @@ class FormBuilder
 
     }
 
-    public function texarea()
+    public function texarea($name)
     {
-
+        $this->form .= "<textarea name='$name'></textarea>";
+        return $this;
     }
 }
