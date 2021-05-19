@@ -72,6 +72,13 @@ body .navbar{
     border-radius: 5px;
     display: flex;
 }
+
+.content-white{
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+}
 .resource-wrapper > div{
     margin-left: 20px;
 }
@@ -91,5 +98,5 @@ body .navbar{
     height: 99px;
     border-left: 1px solid #000;
     border-bottom: 1px solid #000;
-
 }
+

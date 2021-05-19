@@ -5,6 +5,7 @@ namespace Model;
 
 use Model\ModelAbstract;
 use Core\Db;
+use Model\Building;
 
 class City extends ModelAbstract
 {
@@ -14,6 +15,15 @@ class City extends ModelAbstract
 
     private $name;
     private $mapFieldId;
+    private $buildings;
+
+    /**
+     * @return mixed
+     */
+    public function getBuildings()
+    {
+        return $this->buildings;
+    }
 
     /**
      * @return mixed
@@ -54,6 +64,16 @@ class City extends ModelAbstract
         $this->id = $result[self::ID_COLUMN];
         $this->name = $result[self::NAME_COLUMN];
         $this->mapFieldId = $result[self::MAP_FIELD_ID_COLUMN];
+        $this->setBuildings();
+        return $this;
+
+    }
+
+    public function loadByMapFieldId($mapFieldId)
+    {
+        $db = new Db();
+        $result = $db->select()->from(self::TABLE_NAME)->where(self::MAP_FIELD_ID_COLUMN, $mapFieldId)->getOne();
+        $this->load($result[self::ID_COLUMN]);
         return $this;
     }
 
@@ -64,6 +84,15 @@ class City extends ModelAbstract
             self::NAME_COLUMN => $this->name,
             self::MAP_FIELD_ID_COLUMN => $this->mapFieldId
         ];
+    }
+
+    private function setBuildings()
+    {
+        $buildingsIds = Building::loadByCityId($this->id);
+        foreach ($buildingsIds as $id){
+            $buildingObject = new Building();
+            $this->buildings[] = $buildingObject->load($id['id']);
+        }
     }
 
 }

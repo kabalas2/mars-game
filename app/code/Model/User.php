@@ -4,7 +4,7 @@ namespace Model;
 
 use Model\ModelAbstract;
 use Core\Db;
-
+use Model\MapField;
 class User extends ModelAbstract
 {
     public const NAME_COLUMN = 'name';
@@ -16,6 +16,18 @@ class User extends ModelAbstract
     private $userName;
     private $password;
     private $email;
+
+    private $fields = [];
+
+    /**
+     * @return mixed
+     */
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+
 
     public function getUserName()
     {
@@ -55,6 +67,7 @@ class User extends ModelAbstract
         $this->userName = $user[self::NAME_COLUMN];
         $this->email = $user[self::EMAIL_COLUMN];
         $this->password = $user[self::PASSWORD_COLUMN];
+        $this->setFields($this->id);
         return $this;
     }
 
@@ -62,10 +75,7 @@ class User extends ModelAbstract
     {
         $db = new Db();
         $user = $db->select()->from(self::TABLE_NAME)->where(self::EMAIL_COLUMN, $email)->getOne();
-        $this->id = $user[self::ID_COLUMN];
-        $this->userName = $user[self::NAME_COLUMN];
-        $this->email = $user[self::EMAIL_COLUMN];
-        $this->password = $user[self::PASSWORD_COLUMN];
+        $this->load($user['id']);
         return $this;
     }
 
@@ -108,4 +118,13 @@ class User extends ModelAbstract
         return $result;
     }
 
+    private function setFields($userId)
+    {
+        $fields = MapField::getUserFields($userId);
+        foreach ($fields as $field){
+            $fieldObject = new MapField();
+            $fieldObject->load($field['id']);
+            $this->fields[] = $fieldObject;
+        }
+    }
 }

@@ -149,9 +149,6 @@ class User extends Controller
         $user = new UserModel();
         $user->load($id);
         $this->data['user'] = $user;
-
-        $mapFields = MapField::getUserFields($id);
-        $this->data['fields'] = $mapFields;
         $this->render('user/view', $this->data);
     }
 

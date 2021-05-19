@@ -129,8 +129,15 @@ class Building extends ModelAbstract
         $this->buildinTypeId = $result[self::BUILDING_TYPE_ID_COLUMN];
         $this->cityId = $result[self::CITY_ID_COLUMN];
         $this->level = $result[self::LEVEL_COLUMN];
-        $this->position = $result[self::POSITION_COLUMN];
+        $this->position = (int) $result[self::POSITION_COLUMN];
         return $this;
+    }
+
+    public static function loadByCityId($cityId)
+    {
+        $db = new Db();
+        $result = $db->select(self::ID_COLUMN)->from(self::TABLE_NAME)->where(self::CITY_ID_COLUMN, $cityId)->get();
+        return $result;
     }
 
     public function prepeareArray()
