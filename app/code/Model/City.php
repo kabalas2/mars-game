@@ -73,8 +73,11 @@ class City extends ModelAbstract
     {
         $db = new Db();
         $result = $db->select()->from(self::TABLE_NAME)->where(self::MAP_FIELD_ID_COLUMN, $mapFieldId)->getOne();
-        $this->load($result[self::ID_COLUMN]);
-        return $this;
+        if(!empty($result)){
+            $this->load($result[self::ID_COLUMN]);
+            return $this;
+        }
+        return null;
     }
 
 

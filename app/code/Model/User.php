@@ -121,10 +121,12 @@ class User extends ModelAbstract
     private function setFields($userId)
     {
         $fields = MapField::getUserFields($userId);
-        foreach ($fields as $field){
-            $fieldObject = new MapField();
-            $fieldObject->load($field['id']);
-            $this->fields[] = $fieldObject;
+        if(!empty($fields)){
+            foreach ($fields as $field){
+                $fieldObject = new MapField();
+                $fieldObject->load($field['id']);
+                $this->fields[] = $fieldObject;
+            }
         }
     }
 }

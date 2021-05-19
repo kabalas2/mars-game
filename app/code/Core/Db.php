@@ -66,7 +66,7 @@ class Db
             $rez[] = $row;
         }
 
-        return $rez[0];
+        return isset($rez[0]) ? $rez[0] : null;
     }
 
 

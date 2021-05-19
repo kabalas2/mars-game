@@ -7,6 +7,9 @@ $db = new \Core\Db();
 $db->truncate('user')->exec();
 $db->truncate('city')->exec();
 $db->truncate('map_field')->exec();
+$db->truncate('building')->exec();
+$db->truncate('city')->exec();
+$db->truncate('user_resource')->exec();
 echo "Tables truncated <br>";
 
 $generator = new \Service\Map\Generator();
