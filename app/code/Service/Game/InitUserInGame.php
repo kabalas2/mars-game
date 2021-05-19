@@ -5,6 +5,8 @@ namespace Service\Game;
 use Model\City;
 use Model\User;
 use Model\UserResource;
+use Model\Building;
+
 use Service\Map\Field\AssignField;
 
 class InitUserInGame
@@ -29,6 +31,13 @@ class InitUserInGame
             $userResource->setResourceId($id);
             $userResource->save();
         }
+
+        $building = new Building();
+        $building->setBuildinTypeId(1);
+        $building->setCityId($city->getId());
+        $building->setLevel(1);
+        $building->setPosition(1);
+        $building->save();
 
     }
 
