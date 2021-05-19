@@ -22,7 +22,12 @@ class City extends ModelAbstract
      */
     public function getBuildings()
     {
-        return $this->buildings;
+        $buildingsIds = Building::loadByCityId($this->id);
+        foreach ($buildingsIds as $id){
+            $buildingObject = new Building();
+            $this->buildings[] = $buildingObject->load($id['id']);
+        }
+        return  $this->buildings;
     }
 
     /**
@@ -64,7 +69,6 @@ class City extends ModelAbstract
         $this->id = $result[self::ID_COLUMN];
         $this->name = $result[self::NAME_COLUMN];
         $this->mapFieldId = $result[self::MAP_FIELD_ID_COLUMN];
-        $this->setBuildings();
         return $this;
 
     }
@@ -89,13 +93,6 @@ class City extends ModelAbstract
         ];
     }
 
-    private function setBuildings()
-    {
-        $buildingsIds = Building::loadByCityId($this->id);
-        foreach ($buildingsIds as $id){
-            $buildingObject = new Building();
-            $this->buildings[] = $buildingObject->load($id['id']);
-        }
-    }
+
 
 }

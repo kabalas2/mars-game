@@ -24,6 +24,15 @@ class User extends ModelAbstract
      */
     public function getFields()
     {
+        $fields = MapField::getUserFields($this->id);
+        if(!empty($fields)){
+            foreach ($fields as $field){
+                $fieldObject = new MapField();
+                $fieldObject->load($field['id']);
+                $this->fields[] = $fieldObject;
+            }
+        }
+
         return $this->fields;
     }
 
@@ -67,7 +76,6 @@ class User extends ModelAbstract
         $this->userName = $user[self::NAME_COLUMN];
         $this->email = $user[self::EMAIL_COLUMN];
         $this->password = $user[self::PASSWORD_COLUMN];
-        $this->setFields($this->id);
         return $this;
     }
 
@@ -118,15 +126,5 @@ class User extends ModelAbstract
         return $result;
     }
 
-    private function setFields($userId)
-    {
-        $fields = MapField::getUserFields($userId);
-        if(!empty($fields)){
-            foreach ($fields as $field){
-                $fieldObject = new MapField();
-                $fieldObject->load($field['id']);
-                $this->fields[] = $fieldObject;
-            }
-        }
-    }
+
 }

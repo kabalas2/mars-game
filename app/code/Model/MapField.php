@@ -29,6 +29,8 @@ class MapField extends ModelAbstract
      */
     public function getCity()
     {
+        $cityObject = new City();
+        $this->city = $cityObject->loadByMapFieldId($this->id);
         return $this->city;
     }
 
@@ -121,7 +123,6 @@ class MapField extends ModelAbstract
         $this->y = $result[self::Y_COLUMN];
         $this->fieldTypeId = $result[self::FIELD_TYPE_COLUMN];
         $this->userId = $result[self::USER_ID_COLUMN];
-        $this->setCity();
         return $this;
     }
 
@@ -142,11 +143,6 @@ class MapField extends ModelAbstract
         return $result;
     }
 
-    public function setCity()
-    {
-        $cityObject = new City();
-        $this->city = $cityObject->loadByMapFieldId($this->id);
-    }
 
 
 }
