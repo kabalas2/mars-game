@@ -6,6 +6,7 @@ namespace Model;
 use Model\ModelAbstract;
 use Core\Db;
 use Model\Building;
+use Model\Unit;
 
 class City extends ModelAbstract
 {
@@ -94,5 +95,16 @@ class City extends ModelAbstract
     }
 
 
+    public function getUnits()
+    {
+        $units = [];
+        $unitsIds = Unit::getUserUnitsIds($this->id);
+        foreach ($unitsIds as $id){
+            $unitObject = new Unit();
+            $units[] = $unitObject->load($id['id']);
+        }
+
+        return $units;
+    }
 
 }

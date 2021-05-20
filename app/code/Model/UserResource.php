@@ -100,5 +100,4 @@ class UserResource extends ModelAbstract
     }
 
 
-
 }

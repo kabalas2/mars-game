@@ -2,6 +2,7 @@
 
 namespace Model;
 
+use Core\Db;
 
 class Unit extends ModelAbstract
 {
@@ -69,5 +70,12 @@ class Unit extends ModelAbstract
             self::CITY_ID_COLUMN => $this->cityId,
             self::VALUE_COLUMN => $this->value
         ];
+    }
+
+    public static function getUserUnitsIds($cityId)
+    {
+        $db = new Db();
+        $result = $db->select('id')->from(self::TABLE_NAME)->where(self::CITY_ID_COLUMN, $cityId)->exec();
+        return $result;
     }
 }

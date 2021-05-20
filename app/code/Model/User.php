@@ -5,6 +5,8 @@ namespace Model;
 use Model\ModelAbstract;
 use Core\Db;
 use Model\MapField;
+use Model\UserResource;
+
 class User extends ModelAbstract
 {
     public const NAME_COLUMN = 'name';
@@ -124,6 +126,19 @@ class User extends ModelAbstract
         $db = new DB;
         $result = $db->select()->from(self::TABLE_NAME)->get();
         return $result;
+    }
+
+    public function getResources()
+    {
+        $resources = [];
+        $userResourses = new UserResource();
+        $resoursesArray =  $userResourses->loadUserResourses($this->id);
+        foreach ($resoursesArray as $resource){
+            $resourceObject = new UserResource();
+            $resources[] = $resourceObject->load($resource['id']);
+        }
+
+        return $resources;
     }
 
 
