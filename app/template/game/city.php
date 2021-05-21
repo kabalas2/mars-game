@@ -1,21 +1,19 @@
-<?php $user = $this->data['user']; ?>
+<?php $city = $data['city']; ?>
 <div class="city-wrapper">
-    <?php
-    $fields = $user->getFields();
-
-    foreach ($fields as $field){
-        $city = $field->getCity();
-    }
-
-    ?>
-    <h2><?php echo $city->getName();  ?></h2>
     <div class="city-base">
-        <?php
-            foreach ($city->getBuildings() as $building){
-                echo $building->getLevel();
-                echo '<br>';
-                echo $building->getPosition();
-            }
-        ?>
+        <?php foreach ($data['buildings'] as $key => $building): ?>
+            <div class="column">
+                <?php if($building !== ''): ?>
+                    <div class="building type-<?php echo $building->getBuildinTypeId();?>">
+                    <?php echo $building->getLevel(); ?>
+                    </div>
+                <?php else: ?>
+                   <a href="<?php echo BASE_URL ?>city/build/<?php echo $city->getId()?>?position=<?php echo $key ?>" class="add-building">
+                       +
+                   </a>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
     </div>
 </div>
+

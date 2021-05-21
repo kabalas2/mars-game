@@ -26,4 +26,10 @@ class City extends Controller
         $this->data['user'] = $user;
         $this->render('game/city', $this->data);
     }
+
+    public function build($id){
+        $position = $_GET['position'];
+
+        $this->render('game/city/build', $this->data);
+    }
 }

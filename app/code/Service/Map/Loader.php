@@ -2,6 +2,7 @@
 
 namespace Service\Map;
 
+use Helper\Url;
 use Model\MapField;
 use Service\Map\Generator;
 
@@ -17,15 +18,17 @@ class Loader
     public function get()
     {
         $fields = MapField::getAllFields();
-        return $this->sort($fields);
+        return $this->generate($fields);
     }
 
-    public function sort($fields)
+    public function generate($fields)
     {
         $sortedFields = [];
         foreach($fields as $field){
             $sortedFields[$field['y']][$field['x']] = $field;
             $sortedFields[$field['y']][$field['x']]['class'] = $this->fieldClasses[$field[MapField::FIELD_TYPE_COLUMN]];
+            $sortedFields[$field['y']][$field['x']]['link'] = $this->getLink($field);
+
         }
 
         return $sortedFields;
@@ -41,4 +44,11 @@ class Loader
             Generator::WATER_FIELD => 'water',
         ];
     }
+
+    public function getLink($field)
+    {
+        $url = Url::make('map/'.$this->fieldClasses[$field[MapField::FIELD_TYPE_COLUMN]].'/'.$field['id']);
+        return $url;
+    }
+
 }

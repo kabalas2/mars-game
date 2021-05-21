@@ -37,5 +37,6 @@ class Contact extends Controller
         $contact->save();
         mail('admin@mars.lt','contact from'.$email, $message);
 
+
     }
 }

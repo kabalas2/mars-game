@@ -100,3 +100,22 @@ body .navbar{
     border-bottom: 1px solid #000;
 }
 
+.city-base .column .building{
+    width: 98px;
+    height: 98px;
+}
+
+.add-building{
+    background: #00ff00;
+    color: white;
+    font-weight: bold;
+    size: 16px;
+    padding: 5px;
+}
+
+.building.type-1{
+    background: url("../images/g15.png") no-repeat center center;
+    background-size: 90%;
+}
+
+

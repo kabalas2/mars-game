@@ -4,6 +4,7 @@ namespace Controller;
 
 use Core\Controller;
 use Helper\Url;
+use Service\Game\CityBuildings;
 use Service\Map\Loader;
 
 class Map extends Controller
@@ -22,5 +23,14 @@ class Map extends Controller
 
         $this->data['fields'] = $map->get();
         $this->render('game/map', $this->data);
+    }
+
+    public function city($id)
+    {
+        $city = new \Model\City();
+        $city->loadByMapFieldId($id);
+        $this->data['city'] = $city;
+        $this->data['buildings'] = CityBuildings::prepeare($city);
+        $this->render('game/city', $this->data);
     }
 }

@@ -124,7 +124,6 @@ class Building extends ModelAbstract
         $db = new Db();
 
         $result = $db->select()->from(self::TABLE_NAME)->where(self::ID_COLUMN, $id)->getOne();
-
         $this->id = $result[self::ID_COLUMN];
         $this->buildinTypeId = $result[self::BUILDING_TYPE_ID_COLUMN];
         $this->cityId = $result[self::CITY_ID_COLUMN];
