@@ -56,11 +56,24 @@ class Building extends ModelAbstract
     private $position;
 
     /**
+     * @var string
+     */
+    private $name;
+
+    /**
      * @return int
      */
     public function getBuildinTypeId(): int
     {
         return $this->buildinTypeId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     /**
@@ -119,18 +132,7 @@ class Building extends ModelAbstract
         $this->position = $position;
     }
 
-    public function load($id)
-    {
-        $db = new Db();
 
-        $result = $db->select()->from(self::TABLE_NAME)->where(self::ID_COLUMN, $id)->getOne();
-        $this->id = $result[self::ID_COLUMN];
-        $this->buildinTypeId = $result[self::BUILDING_TYPE_ID_COLUMN];
-        $this->cityId = $result[self::CITY_ID_COLUMN];
-        $this->level = $result[self::LEVEL_COLUMN];
-        $this->position = (int) $result[self::POSITION_COLUMN];
-        return $this;
-    }
 
     public static function loadByCityId($cityId)
     {
@@ -139,8 +141,31 @@ class Building extends ModelAbstract
         return $result;
     }
 
+    public function load($id)
+    {
+        $db = new Db();
+
+        $result = $db
+            ->select(self::TABLE_NAME.'.*, building_type.name')
+            ->from(self::TABLE_NAME)
+            ->left('building_type')
+            ->on(self::TABLE_NAME, self::BUILDING_TYPE_ID_COLUMN,'building_type', 'id')
+            ->where(self::TABLE_NAME.'.'.self::ID_COLUMN, $id)
+            ->getOne();
+
+        $this->id = $result[self::ID_COLUMN];
+        $this->buildinTypeId = $result[self::BUILDING_TYPE_ID_COLUMN];
+        $this->cityId = $result[self::CITY_ID_COLUMN];
+        $this->level = $result[self::LEVEL_COLUMN];
+        $this->position = (int) $result[self::POSITION_COLUMN];
+        $this->name = $result['name'];
+        return $this;
+    }
+
     public function prepeareArray()
     {
+
+        $this->getId();
         return [
           self::BUILDING_TYPE_ID_COLUMN => $this->buildinTypeId,
           self::CITY_ID_COLUMN => $this->cityId,

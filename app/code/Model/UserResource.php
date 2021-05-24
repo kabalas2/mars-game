@@ -26,11 +26,25 @@ class UserResource extends ModelAbstract
     private $value;
 
     /**
+     * @var string
+     */
+    private $resourceName;
+
+    /**
      * @return int
      */
     public function getResourceId(): int
     {
         return $this->resourceId;
+    }
+
+    /**
+     * @return string
+     */
+
+    public function getResourceName(): string
+    {
+        return $this->resourceName;
     }
 
     /**
@@ -84,18 +98,31 @@ class UserResource extends ModelAbstract
 
     public function load($id){
         $db = new Db();
-        $resourse  = $db->select()->from(self::TABLE_NAME)->where(self::ID_COLUMN, $id)->getOne();
+        $resourse  = $db
+            ->select(self::TABLE_NAME.'.*, resource_type.name')
+            ->from(self::TABLE_NAME)
+            ->left('resource_type')
+            ->on(self::TABLE_NAME, self::RESOURCE_ID_COLUMN, 'resource_type','id')
+            ->where(self::TABLE_NAME.'.'.self::ID_COLUMN, $id)
+            ->getOne();
         $this->id = $resourse[self::ID_COLUMN];
         $this->resourceId = $resourse[self::RESOURCE_ID_COLUMN];
         $this->userId = $resourse[self::USER_ID_COLUMN];
         $this->value = $resourse[self::VALUE_COLUMN];
+        $this->resourceName = $resourse['name'];
         return $this;
     }
 
     public function loadUserResourses($userId)
     {
         $db = new Db();
-        $resources = $db->select()->from(self::TABLE_NAME)->where(self::USER_ID_COLUMN, $userId)->get();
+        $resources = $db
+            ->select(self::TABLE_NAME.'.*, resource_type.name')
+            ->from(self::TABLE_NAME)
+            ->left('resource_type')
+            ->on(self::TABLE_NAME, self::RESOURCE_ID_COLUMN, 'resource_type', 'id')
+            ->where(self::TABLE_NAME.'.'.self::USER_ID_COLUMN, $userId)
+            ->get();
         return $resources;
     }
 

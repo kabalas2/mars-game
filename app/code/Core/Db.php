@@ -36,7 +36,6 @@ class Db
     // Execute query
     public function exec()
     {
-
         if ($this->pdo->query($this->sql)) {
             $lastId = $this->pdo->lastInsertId();
             return $lastId;
@@ -142,6 +141,18 @@ class Db
     public function truncate($table)
     {
         $this->sql = 'TRUNCATE '.$table;
+        return $this;
+    }
+
+    public function left($table)
+    {
+        $this->sql .= 'LEFT JOIN '.$table.' ';
+        return $this;
+    }
+
+    public function on($table1, $column1, $table2, $column2)
+    {
+        $this->sql .= 'ON '.$table1.'.'.$column1 .' = '.$table2.'.'.$column2.' ';
         return $this;
     }
 

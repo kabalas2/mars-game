@@ -6,6 +6,7 @@
                 <?php if($building !== ''): ?>
                     <div class="building type-<?php echo $building->getBuildinTypeId();?>">
                     <?php echo $building->getLevel(); ?>
+                    <?php echo $building->getName(); ?>
                     </div>
                 <?php else: ?>
                    <a href="<?php echo BASE_URL ?>city/build/<?php echo $city->getId()?>?position=<?php echo $key ?>" class="add-building">
