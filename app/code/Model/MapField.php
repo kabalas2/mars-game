@@ -143,6 +143,4 @@ class MapField extends ModelAbstract
         return $result;
     }
 
-
-
 }
