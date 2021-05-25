@@ -1,4 +1,4 @@
-<?php $fields = $this->data['fields'] ?>
+<?php $fields = $data['fields'] ?>
 <div class="world">
     <div class="map">
         <?php for ($y = 1; $y <= 30; $y++): ?>
@@ -7,11 +7,15 @@
                     <?php $class = ''; ?>
                     <?php if (isset($fields[$y][$x])): ?>
                         <?php $class = $fields[$y][$x]['class']; ?>
+                        <?php if($fields[$y][$x]['user_id'] == $data['user_id']): ?>
+                            <?php $class .= ' current-user-field'; ?>
+                        <?php endif;?>
                         <a href="<?php echo $fields[$y][$x]['link'] ?>">
                             <div class="field <?php echo 'x' . $x . 'y' . $y ?> <?php echo $class; ?>">
 
                             </div>
                         </a>
+
                     <?php else: ?>
                         <div class="field <?php echo 'x' . $x . 'y' . $y ?>">
 

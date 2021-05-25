@@ -22,6 +22,8 @@ class Map extends Controller
         $map = new Loader();
 
         $this->data['fields'] = $map->get();
+        $userSession = new \Session\User();
+        $this->data['user_id'] = $userSession->getAuthUserId();
         $this->render('game/map', $this->data);
     }
 

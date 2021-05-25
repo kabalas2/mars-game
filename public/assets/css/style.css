@@ -118,4 +118,8 @@ body .navbar{
     background-size: 90%;
 }
 
+.field.current-user-field{
+    border: 1px solid #00ff00;
+}
+
 
