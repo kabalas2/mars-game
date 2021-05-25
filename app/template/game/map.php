@@ -1,3 +1,12 @@
+<?php
+/*
+ *
+ *  Cia generuojamas mapas
+ *
+ *
+ */
+
+?>
 <?php $fields = $data['fields'] ?>
 <div class="world">
     <div class="map">
