@@ -21,7 +21,12 @@
                         <?php endif;?>
                         <a href="<?php echo $fields[$y][$x]['link'] ?>">
                             <div class="field <?php echo 'x' . $x . 'y' . $y ?> <?php echo $class; ?>">
-
+                                <div class="info-box">
+                                    <b><?php echo $fields[$y][$x]['field_name']; ?></b>
+                                    <?php if(isset($fields[$y][$x]['owner'])): ?>
+                                        <?php echo $fields[$y][$x]['owner']->getUserName(); ?>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         </a>
 
