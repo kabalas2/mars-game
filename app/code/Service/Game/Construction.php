@@ -4,13 +4,25 @@ namespace Service\Game;
 
 use Core\Session;
 use Model\Building;
+use Model\UserResource;
 use Session\Message;
 use Service\Game\Resource;
+use Session\User;
 
 class Construction
 {
 
     private $costs;
+
+    private $inversedResources = [
+        'sand' => 1,
+        'clay' => 2,
+        'metal' => 3,
+        'water' => 4,
+        'glass' => 5,
+        'food' => 6,
+        'energy' => 7
+    ];
 
     public function build($level, $position, $buildTypeId, $cityId)
     {
@@ -23,12 +35,28 @@ class Construction
             $building->setPosition($position);
             $building->setBuildinTypeId($buildTypeId);
 
-            $message->setErrorMessage('Constructions started');
+            $message->setSuccessMessage('Constructions started');
             $building->save();
-
+            $this->minusResources($buildTypeId, $level);
 
         } else {
             $message->setErrorMessage('Not Enought resources!');
+        }
+    }
+
+    public function minusResources($buildindTypeId, $level)
+    {
+        $userSession = new User();
+        $userId = $userSession->getAuthUserId();
+
+        $buildingCost = $this->costs[$buildindTypeId];
+        foreach ($buildingCost as $name => $value){
+            $resource = new UserResource();
+
+            $resource->loadUserResource($userId, $this->inversedResources[$name]);
+            $newValue = $resource->getValue() - $value;
+            $resource->setValue($newValue);
+            $resource->save();
         }
     }
 
@@ -38,8 +66,8 @@ class Construction
         $this->setCosts();
         $userResources = $resource->getUserResources();
         $biuldingCost = $this->costs[$buildTypeId];
-        foreach ($biuldingCost as $name => $value){
-            if($userResources[$name] < $value){
+        foreach ($biuldingCost as $name => $value) {
+            if ($userResources[$name] < $value) {
                 return false;
             }
         }

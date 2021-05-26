@@ -113,6 +113,15 @@ class UserResource extends ModelAbstract
         return $this;
     }
 
+    public function loadUserResource($userId, $resourceID)
+    {
+        $db = new Db();
+        $resource = $db->select()->from(self::TABLE_NAME)->where(self::RESOURCE_ID_COLUMN, $resourceID)->whereAnd(self::USER_ID_COLUMN, $userId)->getOne();
+        $this->load($resource['id']);
+        return $this;
+    }
+
+
     public function loadUserResourses($userId)
     {
         $db = new Db();
@@ -125,6 +134,8 @@ class UserResource extends ModelAbstract
             ->get();
         return $resources;
     }
+
+
 
 
 }
